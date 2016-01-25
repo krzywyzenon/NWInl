@@ -1,0 +1,25 @@
+﻿@using NorthwindInlV1.Models
+@model NorthwindInlV1.Models.ProductsListModel
+
+<table class="table-bordered">
+    @foreach (Product product in Model.Products)
+    {
+        
+            <tr>
+                <td>@product.ProductName</td>
+                @if (!HttpContext.Current.User.IsInRole("Customer"))
+                {
+                    
+                <td>@Ajax.ActionLink("Add", "AddNewProduct", new { orderId = @Model.OrderId, productId = product.ProductID, amount = 1 }, new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "OrderDetails",
+                        HttpMethod = "GET"
+                    })</td>
+                }
+                
+            </tr>
+            
+        
+    }
+</table>

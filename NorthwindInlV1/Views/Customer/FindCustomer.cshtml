@@ -1,0 +1,48 @@
+﻿@model NorthwindInlV1.Models.CustomerModel
+
+@{
+    ViewBag.Title = "FindCustomer";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<table>
+    <tr>
+        <td>
+            Company name
+        </td>
+
+        <td>
+            City
+        </td>
+    </tr>
+    @using (Html.BeginForm("FindCustomer", "Customer", FormMethod.Post))
+    {
+        <tr>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.CompanyName)
+            </td>
+            <td>
+                @Html.TextBoxFor(m => m.Customer.City)
+            </td>
+
+            <td>
+                <input type="submit" value="Search"/>
+            </td>
+        </tr>
+        
+    }
+
+</table>
+
+@if (Model.Customers != null)
+{
+    
+foreach (var customer in Model.Customers)
+{
+    <div>
+        Customer: @customer.CompanyName
+        City: @customer.City
+        Contact: @customer.ContactName
+    </div>
+}
+}

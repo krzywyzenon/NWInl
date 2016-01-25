@@ -1,0 +1,23 @@
+﻿@model NorthwindInlV1.Models.User
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+@if (!HttpContext.Current.User.Identity.IsAuthenticated)
+{
+
+
+    using (Html.BeginForm("Login", "Account", FormMethod.Post))
+    {
+        @Html.TextBoxFor(m => m.UserName, new {placeholder = "Username"})
+        @Html.PasswordFor(m => m.Password, new {placeholder = "Password"})
+        <input type="submit" value="Login"/>
+    }
+}
+else
+{
+    <H1>You do not have privileges to perform this action</H1>
+}
+

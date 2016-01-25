@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+@if (HttpContext.Current.User.IsInRole("Manager"))
+{
+    <div>You are a manager</div>
+}
+

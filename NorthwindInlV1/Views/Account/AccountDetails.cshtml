@@ -1,0 +1,61 @@
+﻿@model NorthwindInlV1.Models.AccountDetailsModel
+
+@{
+    ViewBag.Title = "AccountDetails";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+
+<h2>AccountDetails</h2>
+
+<table>
+    @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post))
+    {
+        
+
+        if(Model.UserType == "employee")
+        {
+    
+            <tr>
+                <th>First name</th>
+                <td>@Html.TextBoxFor(m => m.Employee.FirstName, new { @value = @Model.Employee.FirstName }) </td>
+            </tr>
+
+            <tr>
+                <th>Last name</th>
+                <td>@Html.TextBoxFor(m => m.Employee.LastName, new { @value = @Model.Employee.LastName }) </td>
+            </tr>
+            <tr>
+                <td>@Html.HiddenFor(m=>m.Employee.EmployeeID)
+                    @Html.HiddenFor(m=>m.UserType)
+                </td>
+            </tr>
+
+        }
+        else
+        {
+    
+            <tr>
+                <th>Name</th>
+                <td>@Html.TextBoxFor(m => m.Customer.ContactName, new { @value = @Model.Customer.ContactName })</td>
+            </tr>
+
+            <tr>
+                <th>Title</th>
+                <td>@Html.TextBoxFor(m => m.Customer.ContactTitle, new {@value = @Model.Customer.ContactTitle})</td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.HiddenFor(m=>m.Customer.CustomerID)
+                    @Html.HiddenFor(m => m.UserType)
+                </td>
+            </tr>
+
+        }
+        <tr>
+            <td>
+                <input type="submit" value="Update"/>
+            </td>
+        </tr>
+    }
+</table>
+

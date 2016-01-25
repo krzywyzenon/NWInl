@@ -1,0 +1,63 @@
+﻿@model NorthwindInlV1.Models.NewOrderModel
+
+@{
+    ViewBag.Title = "AddNewOrder";
+    Layout = "~/Views/Shared/_AppLayout.cshtml";
+}
+<table>
+    
+@using (Html.BeginForm("AddNewOrder", "Order", FormMethod.Post))
+{
+    <tr>
+        <td>
+            Customer
+        </td>
+        <td>
+            Shipper
+        </td>
+        <td>
+            Order Date
+        </td>
+        <td>
+            Required Date
+        </td>
+        <td>
+            Shipped Date
+        </td>
+    </tr>
+    <tr>
+        
+        @if (HttpContext.Current.User.IsInRole("Manager"))
+        {
+            <td>
+                @Html.DropDownListFor(x => x.Order.CustomerID, Model.CustomerNames)
+            </td>
+        }
+        else
+        {
+            <td>
+                @Html.DropDownListFor(x => x.Order.CustomerID, Model.CustomerNamesForEmployee)
+            </td>
+        }
+
+        <td>
+            @Html.DropDownListFor(x => x.Order.ShipVia, Model.Shippers)
+        </td>
+        
+        <td>
+            @Html.TextBoxFor(x=>x.Order.OrderDate)
+        </td>
+    
+        <td>
+            @Html.TextBoxFor(x=>x.Order.RequiredDate)
+        </td>
+    
+        <td>
+            @Html.TextBoxFor(x=>x.Order.ShippedDate)
+        </td>
+
+        <td><input type="submit" value="Add order"/></td>
+    </tr>
+}
+
+</table>

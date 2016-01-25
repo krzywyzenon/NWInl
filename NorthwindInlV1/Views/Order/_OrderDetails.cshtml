@@ -1,0 +1,111 @@
+﻿@using System.Web.Razor
+@model NorthwindInlV1.Models.OrderDetailsModel
+<div id="Details">
+
+    <table class="table-bordered">
+        <tr>
+            <th>
+                Order Id
+            </th>
+
+            <th>
+                Emlployee ID
+            </th>
+
+            <th>
+                Company Name:
+            </th>
+        </tr>
+        
+        <tr>
+            <td>
+                @Model.Order.OrderID
+            </td>
+            <td>
+                @Model.Order.EmployeeID
+            </td>
+            <td>
+                @Model.Customer.CompanyName
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Model.Order.ShippedDate
+            </td>
+            <td colspan="2">
+                @Model.Order.ShipAddress
+            </td>
+
+        </tr>
+        <tr>
+            <th colspan="4">
+                Products in order
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Product name
+            </th>
+
+            <th>
+                Unit price
+            </th>
+
+            <th>
+                Quantity
+            </th>
+        </tr>
+        @foreach (var detail in Model.OrderDetails)
+        {
+            <tr>
+                <td>@detail.Product.ProductName</td>
+                <td>@detail.UnitPrice</td>
+                <td>@detail.Quantity</td>
+
+                @if (!HttpContext.Current.User.IsInRole("Customer"))
+                {
+                    
+                <td>
+                    @Ajax.ActionLink("Add", "ChangeAmount", new {orderId = @Model.Order.OrderID, productId = detail.ProductID, change = "add", amount = 1}, new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "OrderDetails",
+                        HttpMethod = "GET"
+                    })
+                </td>
+
+                <td>
+                    @Ajax.ActionLink("Subtract", "ChangeAmount", new {orderId = @Model.Order.OrderID, productId = detail.ProductID, change = "subtract", amount = 1}, new AjaxOptions
+                    {
+                        InsertionMode = InsertionMode.Replace,
+                        UpdateTargetId = "OrderDetails",
+                        HttpMethod = "GET"
+                    })
+                </td>
+                }
+
+            </tr>
+        }
+    </table>
+</div>
+
+<div id="Products">
+
+    @using (Ajax.BeginForm("FindProducts", new {id = @Model.Order.OrderID}, new AjaxOptions
+    {
+        HttpMethod = "GET",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "ProductList"
+    }))
+    {
+        <h2>Search for products to add:</h2>
+        <p>Category: @Html.DropDownListFor(x => x.Product.CategoryID, Model.categories)</p>
+        <p>Min price: @Html.TextBoxFor(m => m.MinPrice)</p>
+        <p>Max price: @Html.TextBoxFor(m => m.MaxPrice)</p>
+        <p>Name: @Html.TextBoxFor(m=>m.Product.ProductName)</p>
+        <input type="submit" value="Search"/>
+    }
+
+</div>
+
+<div id="ProductList"></div>

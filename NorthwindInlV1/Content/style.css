@@ -1,0 +1,11 @@
+﻿body {
+}
+
+#OrderDetails {
+    left: 300px;
+    position: fixed;
+}
+#Products {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
